@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 
 # Import functions 
 from thermal_properties import Heat
@@ -15,8 +16,8 @@ uploaded_file = st.sidebar.file_uploader("Choose a file")
 results = None
 
 def read_file(uploaded_file):
-    """Read uploaded file and return pandas DataFrame"""
-    file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+    # Read uploaded file and return pandas DataFrame
+    file_extension = Path(uploaded_file.name).suffix.lower()
     
     readers = {
         '.xlsx': lambda f: pd.read_excel(f, header=None),
