@@ -20,7 +20,10 @@ if uploaded_file:
     analysis_type = st.sidebar.selectbox("Select an analysis", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
 
     # Read the uploaded data
-    data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+    try:
+        data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='utf-8')
+    except UnicodeDecodeError:
+        data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
     st.write("Uploaded Data:")
     st.write(data.head())
 
