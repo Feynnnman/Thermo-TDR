@@ -3,4 +3,4 @@ pandas
 numpy
 matplotlib
 scipy
-os
+pathlib
