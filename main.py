@@ -14,18 +14,40 @@ uploaded_file = st.sidebar.file_uploader("Choose a file")
 # Initialize results variable
 results = None
 
+def read_file(uploaded_file):
+    """Read uploaded file and return pandas DataFrame"""
+    file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+    
+    readers = {
+        '.xlsx': lambda f: pd.read_excel(f, header=None),
+        '.csv': lambda f: pd.read_csv(f, delim_whitespace=True, header=None),
+        '.txt': lambda f: pd.read_csv(f, delim_whitespace=True, header=None)
+    }
+    
+    try:
+        reader = readers.get(file_extension)
+        if not reader:
+            raise ValueError(f"Unsupported file format: {file_extension}")
+            
+        try:
+            return reader(uploaded_file)
+        except UnicodeDecodeError:
+            # Fallback to latin1 encoding if utf-8 fails
+            return pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
+            
+    except Exception as e:
+        st.error(f"Error reading file: {str(e)}")
+        return None
+
 # Only run the analysis if a file is uploaded
 if uploaded_file:
+    data = read_file(uploaded_file)
+    if data is not None:
+        st.write("Uploaded Data:")
+        st.write(data.head())
+        
     st.sidebar.header("Choose Function Type")
     analysis_type = st.sidebar.selectbox("Select an analysis", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
-
-    # Read the uploaded data
-    try:
-        data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='utf-8')
-    except UnicodeDecodeError:
-        data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
-    st.write("Uploaded Data:")
-    st.write(data.head())
 
     # Call the respective function
     if analysis_type == "Thermal Properties":
