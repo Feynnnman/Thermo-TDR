@@ -38,14 +38,6 @@ def Heat(input_data, parameters=None):
     data = data.iloc[:, -4:]
     data.columns = ["Counter", "T1", "T3", "Volt"]
 
-    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-    ax.plot(data["Counter"][:300], data["T1"][:300], label="T1")
-    ax.plot(data["Counter"][:300], data["T3"][:300], label="T3")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Temperature (°C)")
-    ax.legend()
-    st.pyplot(fig)
-
     # Data cleaning
     while data["Counter"].iloc[0] != 0:  # Remove the few rows until the counter is 0
         data = data.iloc[1:]
