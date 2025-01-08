@@ -8,8 +8,6 @@ from electrical_conductivity import Sigma
 from water_content import Theta
 
 # Streamlit interface
-st.title("Themo-TDR data analysis")
-
 st.sidebar.image("logo.png", use_container_width=True)
 st.sidebar.header("Upload Your Data")
 uploaded_file = st.sidebar.file_uploader("Select a file to upload")
@@ -46,7 +44,7 @@ def read_file(uploaded_file):
 if uploaded_file:
     data = read_file(uploaded_file)
     if data is not None:
-        st.write("Data Preview:")
+        st.subheader("Data Preview:")
         st.write(data.head())
         
     st.sidebar.header("Select Analysis Type")
