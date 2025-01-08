@@ -70,7 +70,7 @@ def Heat(input_data, parameters=None):
     # define t0 as the heat pulse width, i.e., number of cells in column volt than values are greater than 50
     t0 = len(data[data["Volt"] > 50]) // Times
     # define t1 as the time when the heat pulse starts, i.e., counter value when the first value in column volt is greater than 50\\
-    t1 = data[data["Volt"] > 50].iloc[0]["Counter"]
+    t1 = int(data[data["Volt"] > 50].iloc[0]["Counter"])
 
     # define t2 as the time when the heat pulse ends, i.e., counter value when the last value in column volt is greater than 50
     t2 = int(t0 + t1)
