@@ -8,8 +8,10 @@ from electrical_conductivity import Sigma
 from water_content import Theta
 
 # Streamlit interface
-st.sidebar.image("logo.png", use_container_width=True)
+st.title("Themo-TDR data analysis")
+st.write("This app is designed to compute thermal properties, electrical conductivity, and water content from thermo-TDR data.")
 
+st.sidebar.image("logo.png", use_container_width=True)
 st.sidebar.header("Upload Your Data")
 uploaded_file = st.sidebar.file_uploader("Select a file to upload")
 
