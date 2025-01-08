@@ -12,8 +12,6 @@ def Heat(input_data, parameters=None):
         "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
         "Probe spacing for T1 (m)": 0.008,
         "Probe spacing for T3 (m)": 0.008,
-        "Starting time of heating (s)": 7,
-        "Heat pulse width (s)": 10,
         "Resistance of the heating element (Ohm)": 887.6
     }
     
@@ -49,7 +47,7 @@ def Heat(input_data, parameters=None):
             valid_rows.append(idx)
             expected_counter = (expected_counter + 1) % 300
 
-    data = data.iloc[valid_rows].reset_index(drop=True)  
+    data = data.iloc[valid_rows].reset_index(drop=True)  # Reset the index
 
     data["T1_outliers"] = (data["T1"] > 10 * data["T1"].shift(1).rolling(10).median()) | (data["T1"] > 10 * data["T1"].shift(-1).rolling(10).median()) | (data["T1"].isna())   # Identify outliers for T1
     data["T3_outliers"] = (data["T3"] > 10 * data["T3"].shift(1).rolling(10).median()) | (data["T3"] > 10 * data["T3"].shift(-1).rolling(10).median()) | (data["T3"].isna())   # Identify outliers for T3
@@ -66,10 +64,16 @@ def Heat(input_data, parameters=None):
     C0 = input_heat_parameters["Volumetric heat capacity of the probe (MJ m-3 K-1)"]
     r1 = input_heat_parameters["Probe spacing for T1 (m)"]
     r3 = input_heat_parameters["Probe spacing for T3 (m)"]
-    t1 = int(input_heat_parameters["Starting time of heating (s)"])
-    t2 = int(input_heat_parameters["Starting time of heating (s)"] + input_heat_parameters["Heat pulse width (s)"])
     t0 = input_heat_parameters["Heat pulse width (s)"]
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
+
+    # t1 is defined as the counter number when the heating starts (i.e., volt > 50)
+    t1 = data[data["Volt"] > 50]["Counter"].iloc[0]
+    # heat pulse width is defined as the number of cells when the heating stops (i.e., volt < 50)
+    t0 = data[data["Volt"] < 50]["Counter"].iloc[0] - t1
+
+    t2 = t1 + t0 # t2 is defined as the counter number when the heating stops
+
 
     # Implement the ICPC function
     def fasticpcinv(time, L, a0, qprime, beta0, lambda_, kappa):
@@ -134,7 +138,7 @@ def Heat(input_data, parameters=None):
 
         deltaT1 = T1[t1:240].reset_index(drop=True) - BTemp1
         deltaT3 = T3[t1:240].reset_index(drop=True) - BTemp3
-        q = (np.mean(Volt[6:16]) / 1000) ** 2 * R
+        q = (np.mean(Volt[t1:t2]) / 1000) ** 2 * R
 
         # Identify the data points for PILS fitting
         M1 = np.where((0.7 * np.max(deltaT1) < deltaT1) & (deltaT1 < 0.9 * np.max(deltaT1)))[0]
