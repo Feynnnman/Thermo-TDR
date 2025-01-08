@@ -3,6 +3,7 @@ import pandas as pd
 from scipy.optimize import curve_fit
 from scipy.special import expn
 import scipy.special as sp
+import matplotlib.pyplot as plt
 
 def Heat(input_data, parameters=None):
 
@@ -36,6 +37,14 @@ def Heat(input_data, parameters=None):
     data = data.apply(pd.to_numeric, errors="coerce")  # Convert the data type to numeric
     data = data.iloc[:, -4:]
     data.columns = ["Counter", "T1", "T3", "Volt"]
+
+    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+    ax.plot(data["Counter"][:300], data["T1"][:300], label="T1")
+    ax.plot(data["Counter"][:300], data["T3"][:300], label="T3")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Temperature (°C)")
+    ax.legend()
+    st.pyplot(fig)
 
     # Data cleaning
     while data["Counter"].iloc[0] != 0:  # Remove the few rows until the counter is 0
