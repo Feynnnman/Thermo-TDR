@@ -60,8 +60,6 @@ if uploaded_file:
             "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
             "Probe spacing for Temperature Needle 1 (m)": 0.008,
             "Probe spacing for Temperature Needle 3 (m)": 0.008,
-            "Starting time of heating (s)": 7.0,  
-            "Heat pulse width (s)": 10.0,
             "Resistance of the heating element (Ohm)": 887.6
         }
         
