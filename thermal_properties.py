@@ -34,7 +34,8 @@ def Heat(input_data, parameters=None):
     data = data.iloc[4:]  # Remove the first four rows
     data = data[0].str.split(",", expand=True)  # Split the first column by comma
     data = data.apply(pd.to_numeric, errors="coerce")  # Convert the data type to numeric
-    data.columns = ["Time", "Record", "PTemp", "Counter", "T1", "T3", "Volt"]  # Rename the columns
+    data = data.iloc[:, -4:]
+    data.columns = ["Counter", "T1", "T3", "Volt"]
 
     # Data cleaning
     while data["Counter"].iloc[0] != 0:  # Remove the few rows until the counter is 0
@@ -73,7 +74,6 @@ def Heat(input_data, parameters=None):
 
     # define t2 as the time when the heat pulse ends, i.e., counter value when the last value in column volt is greater than 50
     t2 = t0 + t1
-
 
     # Implement the ICPC function
     def fasticpcinv(time, L, a0, qprime, beta0, lambda_, kappa):
@@ -194,7 +194,3 @@ def Heat(input_data, parameters=None):
         })
 
     return pd.DataFrame(results)
-
-
-
-
