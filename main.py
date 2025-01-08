@@ -67,7 +67,6 @@ if uploaded_file:
         
         # Create input fields for each parameter
         input_heat_parameters = {}
-        st.subheader("Calibration Parameters")
         for param, default_value in default_heat_parameters.items():
             # Determine step size based on the magnitude of the default value
             if abs(default_value) < 0.01 or abs(default_value) > 1000:
