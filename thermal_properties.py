@@ -66,12 +66,13 @@ def Heat(input_data, parameters=None):
     r3 = input_heat_parameters["Probe spacing for T3 (m)"]
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
 
-    # t1 is defined as the counter number when the heating starts (i.e., volt > 50)
-    t1 = data[data["Volt"] > 50]["Counter"].iloc[0]
-    # heat pulse width is defined as the number of cells when the heating stops (i.e., volt < 50)
-    t0 = data[data["Volt"] < 50]["Counter"].iloc[0] - t1
+    # define t0 as the heat pulse width, i.e., number of cells in column volt than values are greater than 50
+    t0 = len(data[data["Volt"] > 50]) // Times
+    # define t1 as the time when the heat pulse starts, i.e., counter value when the first value in column volt is greater than 50\\
+    t1 = data[data["Volt"] > 50].iloc[0]["Counter"]
 
-    t2 = t1 + t0 # t2 is defined as the counter number when the heating stops
+    # define t2 as the time when the heat pulse ends, i.e., counter value when the last value in column volt is greater than 50
+    t2 = t0 + t1
 
 
     # Implement the ICPC function
