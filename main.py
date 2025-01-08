@@ -52,7 +52,7 @@ if uploaded_file:
 
     # Call the respective function
     if analysis_type == "Thermal Properties":
-        st.header("Thermal Properties Analysis")
+        st.subheader("Thermal Properties Analysis")
         
         # Define default heat parameters
         default_heat_parameters = {
