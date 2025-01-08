@@ -8,11 +8,7 @@ from electrical_conductivity import Sigma
 from water_content import Theta
 
 # Streamlit interface
-st.logo(
-    LOGO_URL_LARGE,
-    link="https://streamlit.io/gallery",
-    icon_image=LOGO_URL_SMALL,
-)
+st.sidebar.image("logo.png", use_column_width=True)
 
 st.sidebar.header("Upload Your Data")
 uploaded_file = st.sidebar.file_uploader("Select a file to upload")
