@@ -8,9 +8,9 @@ from electrical_conductivity import Sigma
 from water_content import Theta
 
 # Streamlit interface
-st.title("Thermo-TDR")
-st.sidebar.header("Upload your data")
-uploaded_file = st.sidebar.file_uploader("Choose a file")
+st.title("Thermo-TDR Analysis Tool")
+st.sidebar.header("Upload Your Data File")
+uploaded_file = st.sidebar.file_uploader("Select a file to upload")
 
 # Initialize results variable
 results = None
@@ -44,15 +44,15 @@ def read_file(uploaded_file):
 if uploaded_file:
     data = read_file(uploaded_file)
     if data is not None:
-        st.write("Uploaded Data:")
+        st.write("Uploaded Data Preview:")
         st.write(data.head())
         
-    st.sidebar.header("Choose Function Type")
-    analysis_type = st.sidebar.selectbox("Select an analysis", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
+    st.sidebar.header("Select Analysis Type")
+    analysis_type = st.sidebar.selectbox("Choose an analysis type", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
 
     # Call the respective function
     if analysis_type == "Thermal Properties":
-        st.header("Thermal Properties Computation")
+        st.header("Thermal Properties Analysis")
         
         # Define default heat parameters
         default_heat_parameters = {
@@ -85,7 +85,7 @@ if uploaded_file:
                 )
 
         # Add a "Run" button
-        st.subheader("Run Computations")
+        st.subheader("Run Analysis")
         if st.button("Run"):
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
@@ -93,7 +93,7 @@ if uploaded_file:
                 results = Heat(data, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
-        st.header("Electrical Conductivity Computation")
+        st.header("Electrical Conductivity Analysis")
 
         default_sigma_parameters = {
             "Characteristic impedance of the cable tester system (ohm)": 75,
@@ -132,7 +132,7 @@ if uploaded_file:
 
     # Call the theta function
     elif analysis_type == "Water Content":
-        st.header("Water Content Computation")
+        st.header("Water Content Analysis")
 
         # Define default theta parameters
         default_theta_parameters = {
@@ -160,17 +160,16 @@ if uploaded_file:
     
     # Display and allow download of results
     if results is not None:
-        st.write("Computations complete!")
+        st.write("Analysis Complete!")
         st.write("Results:")
         st.write(results)
         st.download_button(
-            label="Download Results",
+            label="Download Results as CSV",
             data=results.to_csv(index=False),
             file_name=f"{analysis_type.replace(' ', '_')}_results.csv",
             mime="text/csv",
         )
     else:
-        st.info("Click 'Run' to compute the results.")
+        st.info("Click 'Run' to start the analysis.")
 else:
-    st.write("Upload a data file to begin.")
-
+    st.write("Please upload a data file to begin.")
