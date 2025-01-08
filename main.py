@@ -22,7 +22,8 @@ def read_file(uploaded_file):
     readers = {
         '.xlsx': lambda f: pd.read_excel(f, header=None),
         '.csv': lambda f: pd.read_csv(f, delim_whitespace=True, header=None),
-        '.txt': lambda f: pd.read_csv(f, delim_whitespace=True, header=None)
+        '.txt': lambda f: pd.read_csv(f, delim_whitespace=True, header=None),
+        '.dat': lambda f: pd.read_csv(f, delim_whitespace=True, header=None)
     }
     
     try:
