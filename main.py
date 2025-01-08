@@ -9,7 +9,6 @@ from water_content import Theta
 
 # Streamlit interface
 st.title("Themo-TDR data analysis")
-st.write("This app is designed to compute thermal properties, electrical conductivity, and water content from thermo-TDR data.")
 
 st.sidebar.image("logo.png", use_container_width=True)
 st.sidebar.header("Upload Your Data")
