@@ -64,7 +64,6 @@ def Heat(input_data, parameters=None):
     C0 = input_heat_parameters["Volumetric heat capacity of the probe (MJ m-3 K-1)"]
     r1 = input_heat_parameters["Probe spacing for T1 (m)"]
     r3 = input_heat_parameters["Probe spacing for T3 (m)"]
-    t0 = input_heat_parameters["Heat pulse width (s)"]
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
 
     # t1 is defined as the counter number when the heating starts (i.e., volt > 50)
