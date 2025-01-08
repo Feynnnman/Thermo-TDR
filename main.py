@@ -8,8 +8,12 @@ from electrical_conductivity import Sigma
 from water_content import Theta
 
 # Streamlit interface
-sidebar_logo = "https://github.com/Feynnnman/Thermo-TDR/blob/main/logo.png"
-st.sidebar.image(sidebar_logo, width=200)
+st.logo(
+    LOGO_URL_LARGE,
+    link="https://streamlit.io/gallery",
+    icon_image=LOGO_URL_SMALL,
+)
+
 st.sidebar.header("Upload Your Data")
 uploaded_file = st.sidebar.file_uploader("Select a file to upload")
 
