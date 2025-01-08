@@ -56,24 +56,6 @@ def Heat(input_data, parameters=None):
 
     data["T1"] = data["T1"].mask(data["T1_outliers"], data["T1"].shift(-1))  # Replace outliers for T1
     data["T3"] = data["T3"].mask(data["T3_outliers"], data["T3"].shift(-1))  # Replace outliers for T3
-
-    # Data visualization (only plot the first 300 data points)
-    if st.checkbox("Show data preview"):
-
-        st.subheader("Temperature Data Visualization")
-        fig, ax = plt.subplots(2, 1, figsize=(10, 8))
-        ax[0].plot(data["Counter"][:300], data["T1"][:300], label="T1")
-        ax[0].plot(data["Counter"][:300], data["T3"][:300], label="T3")
-        ax[0].set_xlabel("Counter")
-        ax[0].set_ylabel("Temperature (°C)")
-        ax[0].legend()
-
-        ax[1].plot(data["Counter"][:300], data["Volt"][:300], label="Voltage")
-        ax[1].set_xlabel("Counter")
-        ax[1].set_ylabel("Voltage (mV)")
-        ax[1].legend()
-
-        st.pyplot(fig)
         
     Times = len(data) // 300  # Number of groups
 
