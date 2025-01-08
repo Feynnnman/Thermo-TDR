@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 
-# Import functions 
+# Import the functions
 from thermal_properties import Heat
 from electrical_conductivity import Sigma
 from water_content import Theta
@@ -16,23 +16,22 @@ uploaded_file = st.sidebar.file_uploader("Choose a file")
 results = None
 
 def read_file(uploaded_file):
-    # Read uploaded file and return pandas DataFrame
-    file_extension = Path(uploaded_file.name).suffix.lower()
+
+    file_extension = Path(uploaded_file.name).suffix.lower()  # Get the file extension
     
     readers = {
         '.xlsx': lambda f: pd.read_excel(f, header=None),
         '.csv': lambda f: pd.read_csv(f, delim_whitespace=True, header=None),
-        '.txt': lambda f: pd.read_csv(f, delim_whitespace=True, header=None),
-        '.dat': lambda f: pd.read_csv(f, delim_whitespace=True, header=None)
+        '.dat': lambda f: pd.read_csv(f, delim_whitespace=True, header=None),    # Default format for thermo-TDR data
     }
     
     try:
-        reader = readers.get(file_extension)
+        reader = readers.get(file_extension)  
         if not reader:
-            raise ValueError(f"Unsupported file format: {file_extension}")
+            raise ValueError(f"Unsupported file format: {file_extension}")  
             
         try:
-            return reader(uploaded_file)
+            return reader(uploaded_file)  
         except UnicodeDecodeError:
             # Fallback to latin1 encoding if utf-8 fails
             return pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
@@ -61,8 +60,8 @@ if uploaded_file:
             "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
             "Probe spacing for Temperature Needle 1 (m)": 0.008,
             "Probe spacing for Temperature Needle 3 (m)": 0.008,
-            "Starting time of heating (s)": 7.0,  # Changed to float
-            "Heat pulse width (s)": 10.0,  # Changed to float
+            "Starting time of heating (s)": 7.0,  
+            "Heat pulse width (s)": 10.0,
             "Resistance of the heating element (Ohm)": 887.6
         }
         
@@ -71,28 +70,28 @@ if uploaded_file:
         st.subheader("Calibration Parameters")
         for param, default_value in default_heat_parameters.items():
             # Determine step size based on the magnitude of the default value
-            if abs(default_value) < 0.01 or abs(default_value) > 1000:  # For very small values, use scientific notation
-                step = float(f"{default_value:.1e}"[0]) * 10 ** (int(f"{default_value:.1e}".split('e')[1]))
+            if abs(default_value) < 0.01 or abs(default_value) > 1000:
+                step = float(f"{default_value:.1e}"[0]) * 10 ** (int(f"{default_value:.1e}".split('e')[1]))   
                 input_heat_parameters[param] = st.number_input(
                     f"{param}", 
                     value=float(default_value),  # Ensure float type
-                    format="%.1e",
+                    format="%.1e",  # Scientific notation
                     step=float(step)  # Ensure float type
                 )
             else:  # For normal values, use standard decimal format
                 input_heat_parameters[param] = st.number_input(
                     f"{param}",
                     value=float(default_value),  # Ensure float type
-                    format="%.1f",
+                    format="%.1f",  # One decimal place
                     step=0.1  # Changed to 0.1 for better precision
                 )
 
         # Add a "Run" button
-        st.subheader("Run Analysis")
+        st.subheader("Run Computations")
         if st.button("Run"):
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
-                st.write("Processing thermal properties...")
+                st.write("Processing calculations...")
                 results = Heat(data, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
@@ -130,7 +129,7 @@ if uploaded_file:
         if st.button("Run"):
             # Ensure all parameters are provided
             if all(value is not None for value in input_sigma_parameters.values()):
-                st.write("Processing electrical conductivity...")
+                st.write("Processing calculations...")
                 results = Sigma(data, parameters=input_sigma_parameters)
 
     # Call the theta function
@@ -158,11 +157,12 @@ if uploaded_file:
         if st.button("Run"):
             # Ensure all parameters are provided
             if all(value is not None for value in input_theta_parameters.values()):
-                st.write("Processing water content...")
+                st.write("Processing calculations...")
                 results = Theta(data, parameters=input_theta_parameters)
     
     # Display and allow download of results
     if results is not None:
+        st.write("Computations complete!")
         st.write("Results:")
         st.write(results)
         st.download_button(
@@ -175,3 +175,4 @@ if uploaded_file:
         st.info("Click 'Run' to compute the results.")
 else:
     st.write("Upload a data file to begin.")
+
