@@ -46,7 +46,7 @@ def read_file(uploaded_file):
 if uploaded_file:
     data = read_file(uploaded_file)
     if data is not None:
-        st.write("Uploaded Data Preview:")
+        st.write("Data Preview:")
         st.write(data.head())
         
     st.sidebar.header("Select Analysis Type")
