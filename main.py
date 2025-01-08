@@ -46,6 +46,7 @@ if uploaded_file:
     if data is not None:
         st.subheader("Data Preview")
         st.write(data.head())
+        st.write(f"Data shape: {data.shape}")
         
     st.sidebar.header("Select Analysis Type")
     analysis_type = st.sidebar.selectbox("Choose an analysis type", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
