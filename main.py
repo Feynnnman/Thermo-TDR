@@ -88,9 +88,12 @@ if uploaded_file:
         st.dataframe(heat_data, width=800, height=400)
 
         # Data visualization
-        st.subheader("Data Visualization")
-        row_number = st.slider("Select the number of rows to visualize", 1, len(heat_data), 10)
-        st.line_chart(heat_data.iloc[:row_number, 1:3])
+        st.subheader("Data visualization")
+        # Select rows to visualize
+        row_number = st.slider("Number of rows to visualize", 1, len(heat_data), step=300)
+        # Select columns to visualize
+        columns = st.multiselect("Columns to visualize", heat_data.columns, default=heat_data.columns)
+        st.line_chart(heat_data[columns].iloc[:row_number], width=800, height=400)
 
         # Add a "Run" button
         st.subheader("Run Analysis")
