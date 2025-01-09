@@ -72,11 +72,39 @@ if uploaded_file:
 
         # Plot the selected columns
         if "Volt" in columns:
-            fig = heat_data.iloc[:row_number][columns].plot(secondary_y=["Volt"], ylabel="Voltage (V)")
+            fig = heat_data.iloc[:row_number][columns].plot(
+                secondary_y=["Volt"],
+                ylabel="Temperature (°C)",
+                figsize=(10, 6),
+                style={
+                    'T1': '-r',  # red solid line
+                    'T2': '-b',  # blue solid line
+                    'Volt': '--g'  # green dashed line
+                },
+                linewidth=2,
+                grid=True
+            )
+            fig.right_ax.set_ylabel("Voltage (V)")
         else:
-            fig = heat_data.iloc[:row_number][columns].plot(ylabel="Temperature (°C)")
+            fig = heat_data.iloc[:row_number][columns].plot(
+                ylabel="Temperature (°C)",
+                figsize=(10, 6),
+                style={col: f'-{c}' for col, c in zip(columns, ['r', 'b', 'g', 'k', 'm'])},
+                linewidth=2,
+                grid=True
+            )
 
-        st.pyplot(fig.figure)
+        # Customize legend
+        fig.legend(bbox_to_anchor=(1.15, 1), 
+                  loc='upper left',
+                  frameon=True,
+                  fancybox=True,
+                  shadow=True)
+        
+        # Adjust layout to prevent legend cutoff
+        plt.tight_layout()
+        
+        st.pyplot(fig)
 
 
         # Calibration parameters
