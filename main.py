@@ -43,10 +43,7 @@ def read_file(uploaded_file):
 # Only run the analysis if a file is uploaded
 if uploaded_file:
     data = read_file(uploaded_file)
-    if data is not None:
-        st.subheader("Data Preview")  # Display the data preview
-        st.write(data.head())
-
+    
     st.sidebar.header("Select Analysis Type")
     analysis_type = st.sidebar.selectbox("Choose an analysis type", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
 
@@ -82,17 +79,6 @@ if uploaded_file:
                     format="%.1f",  # One decimal place
                     step=0.1  # Changed to 0.1 for better precision
                 )
-        
-        # Data visualization
-        st.subheader("Data Visualization")
-        st.write("Select the data to visualize:")
-        data_to_plot = st.selectbox("Data to Plot", ["T1", "T3", "Voltage"])
-        if data_to_plot == "T1":
-            st.line_chart(data.iloc[:, 1])
-        elif data_to_plot == "T3":
-            st.line_chart(data.iloc[:, 2])
-        else:
-            st.line_chart(data.iloc[:, 3])
 
         # Add a "Run" button
         st.subheader("Run Analysis")
