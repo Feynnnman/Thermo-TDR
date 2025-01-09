@@ -45,7 +45,7 @@ def thermal_data_prep(input_data):
     data["T1"] = data["T1"].mask(T1_outliers, data["T1"].shift(-1))  # Replace outliers for T1
     data["T3"] = data["T3"].mask(T3_outliers, data["T3"].shift(-1))  # Replace outliers for T3
 
-    return data
+    return heat_data
 
 def Heat(input_data, parameters=None):
 
@@ -66,9 +66,9 @@ def Heat(input_data, parameters=None):
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
     # load the data from the previous data function after preprocessing and cleaning
-    data = thermal_data_prep(input_data)
+    heat_data = thermal_data_prep(input_data)
         
-    Times = len(data) // 300  # Number of groups
+    Times = len(heat_data) // 300  # Number of groups
 
     results = []
 
@@ -80,9 +80,9 @@ def Heat(input_data, parameters=None):
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
 
     # define t0 as the heat pulse width, i.e., number of cells in column volt than values are greater than 50
-    t0 = len(data[data["Volt"] > 50]) // Times
+    t0 = len(heat_data[heat_data["Volt"] > 50]) // Times
     # define t1 as the time when the heat pulse starts, i.e., counter value when the first value in column volt is greater than 50\\
-    t1 = int(data[data["Volt"] > 50].iloc[0]["Counter"])
+    t1 = int(heat_data[heat_data["Volt"] > 50].iloc[0]["Counter"])
 
     # define t2 as the time when the heat pulse ends, i.e., counter value when the last value in column volt is greater than 50
     t2 = int(t0 + t1)
@@ -139,10 +139,10 @@ def Heat(input_data, parameters=None):
         )
 
     for i in range(Times):
-        Counter = data[["Counter"]][300*i:300*(i+1)].reset_index(drop=True)
-        T1 = data["T1"][300*i:300*(i+1)].reset_index(drop=True)
-        T3 = data["T3"][300*i:300*(i+1)].reset_index(drop=True)
-        Volt = data["Volt"][300*i:300*(i+1)].reset_index(drop=True)
+        Counter = heat_data[["Counter"]][300*i:300*(i+1)].reset_index(drop=True)
+        T1 = heat_data["T1"][300*i:300*(i+1)].reset_index(drop=True)
+        T3 = heat_data["T3"][300*i:300*(i+1)].reset_index(drop=True)
+        Volt = heat_data["Volt"][300*i:300*(i+1)].reset_index(drop=True)
 
         # Compute baseline temperatures and temperature rises
         BTemp1 = np.mean(T1[:t2])
