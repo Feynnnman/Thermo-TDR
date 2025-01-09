@@ -91,7 +91,7 @@ if uploaded_file:
         st.subheader("Data visualization")
 
         # Select rows to visualize
-        row_number = st.slider("Number of rows to visualize", 1, len(heat_data), step=300)
+        row_number = st.slider("Rows to visualize", 1, len(heat_data), step=300)
 
         # Select columns to visualize
         columns = st.multiselect("Columns to visualize", heat_data.columns, default=heat_data.columns)
