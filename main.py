@@ -104,7 +104,7 @@ if uploaded_file:
         # Adjust layout to prevent legend cutoff
         plt.tight_layout()
         
-        st.pyplot(fig)
+        st.pyplot(fig.figure)
 
 
         # Calibration parameters
