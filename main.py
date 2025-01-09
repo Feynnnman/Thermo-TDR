@@ -63,8 +63,8 @@ if uploaded_file:
         st.subheader("Data visualization")
 
         # Select rows to visualize
-        start_row = st.slider("Start row", 1, len(heat_data), step=300)
-        end_row = st.slider("Rows to visualize", 1, len(heat_data), step=300)
+        start_row = st.slider("Start", 1, len(heat_data), step=300)
+        end_row = st.slider("End", 1, len(heat_data), step=300)
         row_number = end_row - start_row
 
         # Select columns to visualize
