@@ -75,7 +75,6 @@ if uploaded_file:
         if "Volt" in columns:
             fig = heat_data.iloc[:row_number][columns].plot(
                 secondary_y=["Volt"],
-                ylabel="Temperature (°C)",
                 figsize=(10, 6),
                 style={
                     'T1': '-r',  # red solid line
@@ -86,6 +85,7 @@ if uploaded_file:
                 grid=True
             )
             fig.right_ax.set_ylabel("Voltage (V)")
+            fig.ax.set_ylabel("Temperature (°C)")
         else:
             fig = heat_data.iloc[:row_number][columns].plot(
                 ylabel="Temperature (°C)",
