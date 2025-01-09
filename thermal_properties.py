@@ -35,11 +35,15 @@ def thermal_data_prep(input_data):
 
     data = data.iloc[valid_rows].reset_index(drop=True)  # Reset the index
 
-    data["T1_outliers"] = (data["T1"] > 10 * data["T1"].shift(1).rolling(10).median()) | (data["T1"] > 10 * data["T1"].shift(-1).rolling(10).median()) | (data["T1"].isna())   # Identify outliers for T1
-    data["T3_outliers"] = (data["T3"] > 10 * data["T3"].shift(1).rolling(10).median()) | (data["T3"] > 10 * data["T3"].shift(-1).rolling(10).median()) | (data["T3"].isna())   # Identify outliers for T3
+    T1_outliers = (data["T1"] > 10 * data["T1"].shift(1).rolling(10).median()) | \
+        (data["T1"] > 10 * data["T1"].shift(-1).rolling(10).median()) | \
+            (data["T1"].isna())   # Identify outliers for T1
+    T3_outliers = (data["T3"] > 10 * data["T3"].shift(1).rolling(10).median()) | \
+        (data["T3"] > 10 * data["T3"].shift(-1).rolling(10).median()) | \
+            (data["T3"].isna())   # Identify outliers for T3
 
-    data["T1"] = data["T1"].mask(data["T1_outliers"], data["T1"].shift(-1))  # Replace outliers for T1
-    data["T3"] = data["T3"].mask(data["T3_outliers"], data["T3"].shift(-1))  # Replace outliers for T3
+    data["T1"] = data["T1"].mask(T1_outliers, data["T1"].shift(-1))  # Replace outliers for T1
+    data["T3"] = data["T3"].mask(T3_outliers, data["T3"].shift(-1))  # Replace outliers for T3
 
     return data
 
