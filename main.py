@@ -86,6 +86,11 @@ if uploaded_file:
             )
             fig.right_ax.set_ylabel("Voltage (V)")
             fig.set_ylabel("Temperature (°C)")
+            fig.legend(bbox_to_anchor=(1.15, 1), 
+                       loc='upper left',
+                       frameon=True,
+                       fancybox=True,
+                       shadow=True)
         else:
             fig = heat_data.iloc[:row_number][columns].plot(
                 ylabel="Temperature (°C)",
@@ -94,13 +99,6 @@ if uploaded_file:
                 linewidth=2,
                 grid=True
             )
-
-        # Customize legend
-        fig.legend(bbox_to_anchor=(1.15, 1), 
-                  loc='upper left',
-                  frameon=True,
-                  fancybox=True,
-                  shadow=True)
         
         # Adjust layout to prevent legend cutoff
         plt.tight_layout()
