@@ -95,9 +95,9 @@ if uploaded_file:
         columns = st.multiselect("Columns to visualize", heat_data.columns, default=heat_data.columns)
         # If voltage is selected, plot it in right y-axis as secondary axis and plot the rest in the left y-axis
         if "Volt" in columns:
-            fig = heat_data.iloc[:row_number].plot(x="Counter", y=columns[:-1], secondary_y="Volt").get_figure()
+            fig = heat_data.iloc[:row_number].plot(x=row_number, y=columns[:-1], secondary_y="Volt").get_figure()
         else:
-            fig = heat_data.iloc[:row_number].plot(x="Counter", y=columns).get_figure()
+            fig = heat_data.iloc[:row_number].plot(x=row_number, y=columns).get_figure()
 
         st.pyplot(fig)
 
