@@ -89,10 +89,6 @@ if uploaded_file:
 
         # Data visualization
         st.subheader("Data Visualization")
-        st.line_chart(heat_data, x="Counter", y=["T1", "T3", "Volt"], use_container_width=True)
-
-        # Data visualization
-        st.subheader("Data Visualization")
         row_number = st.slider("Select the number of rows to visualize", 1, len(heat_data), 10)
         st.line_chart(heat_data.iloc[:row_number, 1:3])
 
