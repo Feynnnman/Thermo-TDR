@@ -49,9 +49,38 @@ if uploaded_file:
 
     # Call the respective function
     if analysis_type == "Thermal Properties":
+
+
+        # Data preview
+        st.subheader("Data preview")
+        path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        heat_data = thermal_data_prep(path)
+        
+        st.dataframe(heat_data, width=800, height=400)
+
+
+        # Data visualization
+        st.subheader("Data visualization")
+
+        # Select rows to visualize
+        row_number = st.slider("Rows to visualize", 1, len(heat_data), step=300)
+
+        # Select columns to visualize
+        columns = st.multiselect("Columns to visualize", heat_data.columns, default=heat_data.columns)
+
+        # Plot the selected columns
+        # If the user selects the "volt" column, plot it only in the right y-axis
+        if "Volt" in columns:
+            fig = heat_data.iloc[:row_number][columns].plot(secondary_y=["Volt"])
+        else:
+            fig = heat_data.iloc[:row_number][columns].plot()
+
+        st.pyplot(fig.figure)
+
+
+        # Calibration parameters
         st.subheader("Calibration Parameters")
         
-        # Define default heat parameters
         default_heat_parameters = {
             "Radius of the probe (m)": 6.35e-4,
             "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
@@ -80,30 +109,6 @@ if uploaded_file:
                     step=0.1  # Changed to 0.1 for better precision
                 )
 
-        # Data preview
-        st.subheader("Data preview")
-        path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-        heat_data = thermal_data_prep(path)
-        
-        st.dataframe(heat_data, width=800, height=400)
-
-        # Data visualization
-        st.subheader("Data visualization")
-
-        # Select rows to visualize
-        row_number = st.slider("Rows to visualize", 1, len(heat_data), step=300)
-
-        # Select columns to visualize
-        columns = st.multiselect("Columns to visualize", heat_data.columns, default=heat_data.columns)
-
-        # Plot the selected columns
-        # If the user selects the "volt" column, plot it only in the right y-axis
-        if "Volt" in columns:
-            fig = heat_data.iloc[:row_number][columns].plot(secondary_y=["Volt"])
-        else:
-            fig = heat_data.iloc[:row_number][columns].plot()
-
-        st.pyplot(fig.figure)
 
         # Add a "Run" button
         st.subheader("Run Analysis")
