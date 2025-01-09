@@ -58,6 +58,14 @@ def Heat(input_data, parameters=None):
     data["T1"] = data["T1"].mask(data["T1_outliers"], data["T1"].shift(-1))  # Replace outliers for T1
     data["T3"] = data["T3"].mask(data["T3_outliers"], data["T3"].shift(-1))  # Replace outliers for T3
 
+    # Add a Data preview section
+    st.subheader("Data preview")
+        if st.button("Run"):
+            # Ensure all parameters are provided
+            if all(value is not None for value in input_heat_parameters.values()):
+                st.write("Processing calculations...")
+                results = Heat(data, parameters=input_heat_parameters)
+
     if data is not None:
         st.subheader("Data Preview")  # Display the data preview
         st.write(data.head())
