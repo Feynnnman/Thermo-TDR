@@ -80,12 +80,16 @@ if uploaded_file:
                     step=0.1  # Changed to 0.1 for better precision
                 )
 
-        # Add a "Data Cleaning" button
+        # Data preview
         st.subheader("Data preview")
         path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
         heat_data = thermal_data_prep(path)
-
+        
         st.dataframe(heat_data, width=800, height=400)
+
+        # Data visualization
+        st.subheader("Data Visualization")
+        st.line_chart(heat_data[["T1", "T3"]])
 
         # Add a "Run" button
         st.subheader("Run Analysis")
