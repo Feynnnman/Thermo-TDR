@@ -57,32 +57,9 @@ def Heat(input_data, parameters=None):
     data["T1"] = data["T1"].mask(data["T1_outliers"], data["T1"].shift(-1))  # Replace outliers for T1
     data["T3"] = data["T3"].mask(data["T3_outliers"], data["T3"].shift(-1))  # Replace outliers for T3
 
-    # Plot the cleaned data
-    plt.figure(figsize=(12, 8))
-    
-    plt.subplot(3, 1, 1)
-    plt.plot(data["Counter"], data["T1"], label="T1")
-    plt.xlabel("Counter")
-    plt.ylabel("T1")
-    plt.title("T1 vs Counter")
-    plt.legend()
-    
-    plt.subplot(3, 1, 2)
-    plt.plot(data["Counter"], data["T3"], label="T3")
-    plt.xlabel("Counter")
-    plt.ylabel("T3")
-    plt.title("T3 vs Counter")
-    plt.legend()
-    
-    plt.subplot(3, 1, 3)
-    plt.plot(data["Counter"], data["Volt"], label="Voltage")
-    plt.xlabel("Counter")
-    plt.ylabel("Voltage")
-    plt.title("Voltage vs Counter")
-    plt.legend()
-    
-    plt.tight_layout()
-    plt.show()
+    if data is not None:
+        st.subheader("Data Preview")  # Display the data preview
+        st.write(data.head())
         
     Times = len(data) // 300  # Number of groups
 
