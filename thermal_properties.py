@@ -4,6 +4,7 @@ from scipy.optimize import curve_fit
 from scipy.special import expn
 import scipy.special as sp
 import matplotlib.pyplot as plt
+import streamlit as st
 
 def Heat(input_data, parameters=None):
 
