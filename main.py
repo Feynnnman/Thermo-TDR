@@ -4,7 +4,7 @@ from pathlib import Path
 
 # Import the functions
 from thermal_properties import Heat
-from thermal_properties import data_prep
+from thermal_properties import thermal_data_prep
 from electrical_conductivity import Sigma
 from water_content import Theta
 
@@ -40,6 +40,9 @@ def read_file(uploaded_file):
     except Exception as e:
         st.error(f"Error reading file: {str(e)}")
         return None
+
+# Only run the analysis if a file is uploaded
+if uploaded_file:
 
     st.sidebar.header("Select Analysis Type")
     analysis_type = st.sidebar.selectbox("Choose an analysis type", ["Thermal Properties", "Electrical Conductivity", "Water Content"])
@@ -80,11 +83,11 @@ def read_file(uploaded_file):
         # Add a "Data Cleaning" button
         st.subheader("Data preview")
         if st.button("Data Cleaning"):
-            data = data_prep(data)
+            heat_data = thermal_data_prep(uploaded_file)
 
             # Print the cleaned data head
             st.write("Cleaned Data:")
-            st.write(data.head())
+            st.write(heat_data.head())
 
         # Add a "Run" button
         st.subheader("Run Analysis")
@@ -92,7 +95,7 @@ def read_file(uploaded_file):
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
                 st.write("Processing calculations...")
-                results = Heat(data, parameters=input_heat_parameters)
+                results = Heat(heat_data, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
         st.header("Electrical Conductivity Analysis")
