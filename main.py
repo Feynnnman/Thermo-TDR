@@ -85,7 +85,7 @@ if uploaded_file:
                 grid=True
             )
             fig.right_ax.set_ylabel("Voltage (V)")
-            fig.ax.set_ylabel("Temperature (°C)")
+            fig.set_ylabel("Temperature (°C)")
         else:
             fig = heat_data.iloc[:row_number][columns].plot(
                 ylabel="Temperature (°C)",
