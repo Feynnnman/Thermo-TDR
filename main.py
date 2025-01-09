@@ -89,6 +89,10 @@ if uploaded_file:
 
         # Data visualization
         st.subheader("Data Visualization")
+        st.line_chart(heat_data, x="Counter", y=["T1", "T3", "Volt"], use_container_width=True)
+
+        # Data visualization
+        st.subheader("Data Visualization")
         st.line_chart(heat_data[["T1", "T3"]])
 
         # Add a "Run" button
