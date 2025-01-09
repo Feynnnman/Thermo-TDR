@@ -85,7 +85,7 @@ if uploaded_file:
         path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
         heat_data = thermal_data_prep(path)
 
-        st.write(heat_data.head())
+        st.dataframe(heat_data)
 
         # Add a "Run" button
         st.subheader("Run Analysis")
