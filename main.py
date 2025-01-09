@@ -71,9 +71,9 @@ if uploaded_file:
         # Plot the selected columns
         # If the user selects the "volt" column, plot it only in the right y-axis
         if "Volt" in columns:
-            fig = heat_data.iloc[:row_number][columns].plot(secondary_y=["Volt"])
+            fig = heat_data.iloc[:row_number][columns].plot(secondary_y=["Volt"], ylabel="Voltage (V)", colorbar=True, colormap="viridis")
         else:
-            fig = heat_data.iloc[:row_number][columns].plot()
+            fig = heat_data.iloc[:row_number][columns].plot(ylabel="Temperature (°C)", colorbar=True, colormap="viridis")
 
         st.pyplot(fig.figure)
 
