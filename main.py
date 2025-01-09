@@ -96,11 +96,11 @@ if uploaded_file:
             )
 
             # Get lines and labels from both axes
-            lines_1, labels_1 = fig.ax.get_legend_handles_labels()
+            lines_1, labels_1 = fig.get_legend_handles_labels()
             lines_2, labels_2 = fig.right_ax.get_legend_handles_labels()
             
             # Combine legends from both axes
-            fig.ax.legend(lines_1 + lines_2, labels_1 + labels_2,
+            fig.legend(lines_1 + lines_2, labels_1 + labels_2,
                          bbox_to_anchor=(1.15, 1),
                          loc='upper left',
                          frameon=True,
