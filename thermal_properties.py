@@ -6,23 +6,7 @@ import scipy.special as sp
 import matplotlib.pyplot as plt
 import streamlit as st
 
-def Heat(input_data, parameters=None):
-
-    # Define default parameters
-    default_heat_parameters = {
-        "Radius of the probe (m)": 6.35e-4,
-        "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
-        "Probe spacing for T1 (m)": 0.008,
-        "Probe spacing for T3 (m)": 0.008,
-        "Resistance of the heating element (Ohm)": 887.6
-    }
-    
-    # Use default parameters if not provided
-    if parameters is None:
-        input_heat_parameters = default_heat_parameters
-    else:
-        # If any parameter is updated, use the updated value
-        input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
+def data_prep(input_data):
 
     # Check if input_data is a file path or a DataFrame
     if isinstance(input_data, str):  # If it's a string, treat it as a file path
@@ -32,14 +16,13 @@ def Heat(input_data, parameters=None):
     else:
         raise ValueError("Input must be either a file path or a pandas DataFrame")
 
-    # Data preprocessing
+    # Data preprocessing and cleaning
     data = data.iloc[4:]  # Remove the first four rows
     data = data[0].str.split(",", expand=True)  # Split the first column by comma
     data = data.apply(pd.to_numeric, errors="coerce")  # Convert the data type to numeric
     data = data.iloc[:, -4:]
     data.columns = ["Counter", "T1", "T3", "Volt"]
 
-    # Data cleaning
     while data["Counter"].iloc[0] != 0:  # Remove the few rows until the counter is 0
         data = data.iloc[1:]
 
@@ -58,17 +41,32 @@ def Heat(input_data, parameters=None):
     data["T1"] = data["T1"].mask(data["T1_outliers"], data["T1"].shift(-1))  # Replace outliers for T1
     data["T3"] = data["T3"].mask(data["T3_outliers"], data["T3"].shift(-1))  # Replace outliers for T3
 
-    # Add a Data preview section
-    st.subheader("Data preview")
-        if st.button("Run"):
-            # Ensure all parameters are provided
-            if all(value is not None for value in input_heat_parameters.values()):
-                st.write("Processing calculations...")
-                results = Heat(data, parameters=input_heat_parameters)
-
     if data is not None:
         st.subheader("Data Preview")  # Display the data preview
         st.write(data.head())
+
+    return data
+
+def Heat(input_data, parameters=None):
+
+    # Define default parameters
+    default_heat_parameters = {
+        "Radius of the probe (m)": 6.35e-4,
+        "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
+        "Probe spacing for T1 (m)": 0.008,
+        "Probe spacing for T3 (m)": 0.008,
+        "Resistance of the heating element (Ohm)": 887.6
+    }
+    
+    # Use default parameters if not provided
+    if parameters is None:
+        input_heat_parameters = default_heat_parameters
+    else:
+        # If any parameter is updated, use the updated value
+        input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
+
+    # load the data from the previous data function after preprocessing and cleaning
+    data = data_prep(input_data)
         
     Times = len(data) // 300  # Number of groups
 
