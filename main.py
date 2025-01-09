@@ -85,7 +85,7 @@ if uploaded_file:
                 grid=True
             )
             fig.right_ax.set_ylabel("Voltage (V)")
-            fig.set_ylabel("Temperature (°C)")
+            fig.ax.set_ylabel("Temperature (°C)")
         else:
             fig = heat_data.iloc[:row_number][columns].plot(
                 ylabel="Temperature (°C)",
@@ -95,17 +95,11 @@ if uploaded_file:
                 grid=True
             )
 
-            # Get lines and labels from both axes
-            lines_1, labels_1 = fig.get_legend_handles_labels()
-            lines_2, labels_2 = fig.right_ax.get_legend_handles_labels()
-            
-            # Combine legends from both axes
-            fig.legend(lines_1 + lines_2, labels_1 + labels_2,
-                         bbox_to_anchor=(1.15, 1),
-                         loc='upper left',
-                         frameon=True,
-                         fancybox=True,
-                         shadow=True)
+        fig.legend(bbox_to_anchor=(1.15, 1), 
+                  loc='upper left',
+                  frameon=True,
+                  fancybox=True,
+                  shadow=True)
         
         # Adjust layout to prevent legend cutoff
         plt.tight_layout()
