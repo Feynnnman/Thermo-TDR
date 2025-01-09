@@ -110,12 +110,12 @@ if uploaded_file:
                 )
 
 
-        # Add a "Run" button
-        st.subheader("Run Analysis")
-        if st.button("Run"):
+        # Compute the thermal properties
+        st.subheader("Computation and Results")
+        if st.button("Compute"):
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
-                st.write("Processing calculations...")
+                st.write("Processing computations...")
                 results = Heat(heat_data, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
