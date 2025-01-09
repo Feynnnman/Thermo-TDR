@@ -82,11 +82,10 @@ if uploaded_file:
 
         # Add a "Data Cleaning" button
         st.subheader("Data preview")
-        if st.button("Data Cleaning"):
-            path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-            heat_data = thermal_data_prep(path)
-            
-            st.write(heat_data.head())
+        path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        heat_data = thermal_data_prep(path)
+
+        st.write(heat_data.head())
 
         # Add a "Run" button
         st.subheader("Run Analysis")
