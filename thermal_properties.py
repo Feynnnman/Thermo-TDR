@@ -6,7 +6,7 @@ import scipy.special as sp
 import matplotlib.pyplot as plt
 import streamlit as st
 
-def data_prep(input_data):
+def thermal_data_prep(input_data):
 
     # Check if input_data is a file path or a DataFrame
     if isinstance(input_data, str):  # If it's a string, treat it as a file path
@@ -66,7 +66,7 @@ def Heat(input_data, parameters=None):
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
     # load the data from the previous data function after preprocessing and cleaning
-    data = data_prep(input_data)
+    data = thermal_data_prep(input_data)
         
     Times = len(data) // 300  # Number of groups
 
