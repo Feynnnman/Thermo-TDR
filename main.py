@@ -93,7 +93,11 @@ if uploaded_file:
         row_number = st.slider("Number of rows to visualize", 1, len(heat_data), step=300)
         # Select columns to visualize
         columns = st.multiselect("Columns to visualize", heat_data.columns, default=heat_data.columns)
-        st.line_chart(heat_data[columns].iloc[:row_number], width=800, height=400)
+        # If voltage is selected, plot it in right y-axis
+        if "Volt" in columns:
+            fig = heat_data.iloc[:row_number][columns].plot(secondary_y=["Volt"])
+        else:
+            fig = heat_data.iloc[:row_number][columns].plot()
 
         # Add a "Run" button
         st.subheader("Run Analysis")
