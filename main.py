@@ -168,6 +168,9 @@ if uploaded_file:
 
         fig = electrical_data.iloc[:, start_column:end_column].plot(
             figsize=(10, 6),
+            xlabel="Travel distance (m)",
+            ylabel="Reflection coefficient",
+            legend=Flase,
             style={col: f'-{c}' for col, c in zip(electrical_data.columns[start_column:end_column], ['r', 'b', 'g', 'k', 'm'])},
             linewidth=2,
             grid=True
