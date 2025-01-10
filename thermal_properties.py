@@ -3,8 +3,7 @@ import pandas as pd
 from scipy.optimize import curve_fit
 from scipy.special import expn
 import scipy.special as sp
-import matplotlib.pyplot as plt
-import streamlit as st
+from pathlib import Path
 
 def thermal_data_prep(input_data):
 
@@ -66,10 +65,12 @@ def Heat(input_data, parameters=None):
         # If any parameter is updated, use the updated value
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
-    # load the data from the previous data function after preprocessing and cleaning
-    heat_data = thermal_data_prep(input_data)
+    # if the uploaded file is dat file, call the thermal_data_prep function
+    if Path(input_data.name).suffix.lower() == ".dat":
+        heat_data = thermal_data_prep(input_data)
+    else:
+        heat_data = input_data
         
-
     results = []
 
     # Define constants and user_parameters
