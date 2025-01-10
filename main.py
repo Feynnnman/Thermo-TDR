@@ -9,7 +9,7 @@ from thermal_properties import thermal_data_prep
 from electrical_conductivity import Sigma
 from electrical_conductivity import electrical_data_prep
 from water_content import Theta
-from water_content import water_content_prep
+from water_content import theta_data_prep
 
 # Streamlit interface
 st.sidebar.image("logo.png", use_container_width=True)
@@ -223,7 +223,7 @@ if uploaded_file:
         # Data preview
         st.subheader("Data preview")
         path_T = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-        theta_data = water_content_prep(path_T)
+        theta_data = theta_data_prep(path_T)
         
         st.dataframe(theta_data, width=800, height=400)
 
