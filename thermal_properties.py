@@ -65,7 +65,12 @@ def Heat(input_data, parameters=None):
         # If any parameter is updated, use the updated value
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
-    heat_data = thermal_data_prep(input_data)
+
+    extension = Path(input_data.name).suffix.lower()
+    if extension == '.dat':
+        heat_data = thermal_data_prep(input_data)
+    else:
+        heat_data = pd.read_csv(input_data, delim_whitespace=True, header=None)
         
     results = []
 
