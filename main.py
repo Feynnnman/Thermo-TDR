@@ -55,8 +55,8 @@ if uploaded_file:
 
         # Data preview
         st.subheader("Data preview")
-        path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-        heat_data = thermal_data_prep(path)
+        path_T = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        heat_data = thermal_data_prep(path_T)
         
         st.dataframe(heat_data, width=800, height=400)
 
@@ -146,14 +146,14 @@ if uploaded_file:
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
                 st.write("Processing computations...")
-                results = Heat(path, parameters=input_heat_parameters)
+                results = Heat(path_T, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
 
         # Data preview
         st.subheader("Data preview")
-        path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-        electrical_data = electrical_data_prep(path)
+        path_E = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        electrical_data = electrical_data_prep(path_E)
         
         st.dataframe(electrical_data, width=800, height=400)
 
@@ -205,13 +205,13 @@ if uploaded_file:
                     step=0.01
                 )
 
-        # Add a "Run" button
-        st.subheader("Run Analysis")
-        if st.button("Run"):
+        # Compute the thermal properties
+        st.subheader("Computation and Results")
+        if st.button("Compute"):
             # Ensure all parameters are provided
             if all(value is not None for value in input_sigma_parameters.values()):
-                st.write("Processing calculations...")
-                results = Sigma(data, parameters=input_sigma_parameters)
+                st.write("Processing computations...")
+                results = Sigma(path_E, parameters=input_sigma_parameters)
 
     # Call the theta function
     elif analysis_type == "Water Content":
