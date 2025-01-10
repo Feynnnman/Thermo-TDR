@@ -66,7 +66,7 @@ def Heat(input_data, parameters=None):
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
 
-    extension = Path(input_data).suffix
+    extension = Path(input_data.name).suffix.lower()
     if extension == '.dat':
         heat_data = thermal_data_prep(input_data)
     else:
