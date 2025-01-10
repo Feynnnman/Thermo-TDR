@@ -56,6 +56,7 @@ def Heat(input_data, parameters=None):
         "Probe spacing for T1 (m)": 0.008,
         "Probe spacing for T3 (m)": 0.008,
         "Resistance of the heating element (Ohm)": 887.6
+        "Duration of one measurement (s)": 300
     }
     
     # Use default parameters if not provided
@@ -68,7 +69,6 @@ def Heat(input_data, parameters=None):
     # load the data from the previous data function after preprocessing and cleaning
     heat_data = thermal_data_prep(input_data)
         
-    Times = len(heat_data) // 300  # Number of groups
 
     results = []
 
@@ -78,6 +78,9 @@ def Heat(input_data, parameters=None):
     r1 = input_heat_parameters["Probe spacing for T1 (m)"]
     r3 = input_heat_parameters["Probe spacing for T3 (m)"]
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
+    T = input_heat_parameters["Duration of one measurement (s)"]
+
+    Times = len(heat_data) // T
 
     # define t0 as the heat pulse width, i.e., number of cells in column volt than values are greater than 50
     t0 = len(heat_data[heat_data["Volt"] > 50]) // Times
@@ -139,17 +142,17 @@ def Heat(input_data, parameters=None):
         )
 
     for i in range(Times):
-        Counter = heat_data[["Counter"]][300*i:300*(i+1)].reset_index(drop=True)
-        T1 = heat_data["T1"][300*i:300*(i+1)].reset_index(drop=True)
-        T3 = heat_data["T3"][300*i:300*(i+1)].reset_index(drop=True)
-        Volt = heat_data["Volt"][300*i:300*(i+1)].reset_index(drop=True)
+        Counter = heat_data[["Counter"]][T*i:T*(i+1)].reset_index(drop=True)
+        T1 = heat_data["T1"][T*i:T*(i+1)].reset_index(drop=True)
+        T3 = heat_data["T3"][T*i:T*(i+1)].reset_index(drop=True)
+        Volt = heat_data["Volt"][T*i:T*(i+1)].reset_index(drop=True)
 
         # Compute baseline temperatures and temperature rises
         BTemp1 = np.mean(T1[:t2])
         BTemp3 = np.mean(T3[:t2])
 
-        deltaT1 = T1[t1:240].reset_index(drop=True) - BTemp1
-        deltaT3 = T3[t1:240].reset_index(drop=True) - BTemp3
+        deltaT1 = T1[t1:0.8*T].reset_index(drop=True) - BTemp1
+        deltaT3 = T3[t1:0.8*T].reset_index(drop=True) - BTemp3
         q = (np.mean(Volt[t1:t2]) / 1000) ** 2 * R
 
         # Identify the data points for PILS fitting
@@ -196,12 +199,16 @@ def Heat(input_data, parameters=None):
         # Store results for each group
         results.append({
             "Group": i + 1,
-            "Heat Capacity (ICPC)": (C1[0] + C3[0]) / 2,
-            "Thermal diffusity (ICPC)": (C1[1] + C3[1]) / 2,
-            "Thermal conductivity (ICPC)": (C1[0] * C1[1] + C3[0] * C3[1]) / 20,
-            "Heat Capacity (PILS)": (P1[0] + P3[0]) / 2,
-            "Thermal diffusity (PILS)": (P1[1] + P3[1]) / 2,
-            "Thermal conductivity (PILS)": (P1[0] * P1[1] + P3[0] * P3[1]) / 20,
+            "Heat Capacity needle 1 (ICPC)": C1[0],
+            "Heat Capacity needle 3 (ICPC)": C3[0],
+            "Thermal diffusity needle 1(ICPC)": C1[1],
+            "Thermal diffusity needle 3(ICPC)": C3[1],
+            "Thermal conductivity (ICPC)": (C1[0] * C1[1]) / 10,
+            "Heat Capacity needle 1 (PILS)": P1[0],
+            "Heat Capacity needle 3 (PILS)": P3[0],
+            "Thermal diffusity needle 1(PILS)": P1[1],
+            "Thermal diffusity needle 3(PILS)": P3[1],
+            "Thermal conductivity (PILS)": (P1[0] * P1[1]) / 10,
             "q (Heat input)": q
         })
 
