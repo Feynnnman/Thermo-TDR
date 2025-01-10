@@ -70,7 +70,7 @@ def Heat(input_data, parameters=None):
     if extension == '.dat':
         heat_data = thermal_data_prep(input_data)
     else:
-        heat_data = pd.read_csv(input_data, delim_whitespace=True, header=None)
+        heat_data = pd.read_excel(input_data)
         
     results = []
 
