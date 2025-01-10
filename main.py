@@ -62,7 +62,7 @@ if uploaded_file:
             path_H = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
             heat_data = thermal_data_prep(path_H)
         else:
-            heat_data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None，encoding='latin1')
+            heat_data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
         
         st.dataframe(heat_data, width=800, height=400)
 
