@@ -115,10 +115,11 @@ if uploaded_file:
         default_heat_parameters = {
             "Radius of the probe (m)": 6.35e-4,
             "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
-            "Probe spacing for Temperature Needle 1 (m)": 0.008,
-            "Probe spacing for Temperature Needle 3 (m)": 0.008,
-            "Resistance of the heating element (Ohm)": 887.6
-        }
+            "Probe spacing for T1 (m)": 0.008,
+            "Probe spacing for T3 (m)": 0.008,
+            "Resistance of the heating element (Ohm)": 887.6,
+            "Duration of one measurement (s)": 300
+            }
         
         # Create input fields for each parameter
         input_heat_parameters = {}
