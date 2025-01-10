@@ -62,7 +62,8 @@ if uploaded_file:
             path_H = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
             heat_data = thermal_data_prep(path_H)
         else:
-            heat_data = pd.read_excel(uploaded_file, header=None)
+            path_H = pd.read_excel(uploaded_file, header=None)
+            heat_data = path_H
             heat_data.columns = ["Counter", "T1", "T3", "Volt"]
         
         st.dataframe(heat_data, width=800, height=400)
@@ -154,7 +155,7 @@ if uploaded_file:
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
                 st.write("Processing computations...")
-                results = Heat(input_data=uploaded_file, parameters=input_heat_parameters)
+                results = Heat(path_H, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
 
