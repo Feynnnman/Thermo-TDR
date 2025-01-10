@@ -99,7 +99,6 @@ def Theta(input_data, parameters=None):
             "dielectric_constant": dielectric_constant,
             "water_content": water_content
         })
-
     return pd.DataFrame(results)
 
 # %%
