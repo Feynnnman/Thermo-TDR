@@ -3,20 +3,7 @@ import numpy as np
 import pandas as pd
 import io
 
-def Theta(input_data, parameters=None):
-
-    # Define default parameters
-    default_theta_parameters = {
-        "Probe length (m)": 0.045
-    }
-
-    # Use default parameters if not provided
-    if parameters is None:
-        input_theta_parameters = default_theta_parameters
-    else:
-        # If any parameter is updated, use the updated value
-        input_theta_parameters = {key: parameters.get(key, default_theta_parameters[key]) for key in default_theta_parameters.keys()}
-
+def theta_data_prep(input_data):
     # Check if input_data is a file path or a DataFrame
     if isinstance(input_data, str):  # If it's a string, treat it as a file path
         data = pd.read_csv(input_data, delim_whitespace=True, header=None)
@@ -33,15 +20,26 @@ def Theta(input_data, parameters=None):
 
     data = data.T  # Transpose the data
 
+    return data
+
+def Theta(input_data, parameters=None):
+
+    # Define default parameters
+    default_theta_parameters = {
+        "Probe length (m)": 0.045
+    }
+
+    theta_data = theta_data_prep(input_data)
+
     # Create a list to store results
     results = []
 
     # Define the parameters
-    L = input_theta_parameters["Probe length (m)"]
+    L = default_theta_parameters["Probe length (m)"]
 
-    for i in range(0, data.shape[1]):
+    for i in range(0, theta_data.shape[1]):
         x = np.arange(0, 251) / 251
-        y = data.iloc[:, i]
+        y = theta_data.iloc[:, i]
 
         # Find the first 70% of the data
         first_70_percent_index = int(0.7 * len(y))
