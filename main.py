@@ -38,7 +38,7 @@ def read_file(uploaded_file):
             return reader(uploaded_file)  
         except UnicodeDecodeError:
             # Fallback to latin1 encoding if utf-8 fails
-            return pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
+            return pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
             
     except Exception as e:
         st.error(f"Error reading file: {str(e)}")
@@ -62,7 +62,7 @@ if uploaded_file:
             path_H = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
             heat_data = thermal_data_prep(path_H)
         else:
-            heat_data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='iso-8859-1')
+            heat_data = pd.read_csv(uploaded_file, delim_whitespace=True, header=None, encoding='latin1')
         
         st.dataframe(heat_data, width=800, height=400)
 
