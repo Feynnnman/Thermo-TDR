@@ -154,7 +154,7 @@ if uploaded_file:
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
                 st.write("Processing computations...")
-                results = Heat(heat_data, parameters=input_heat_parameters)
+                results = Heat(input_data=uploaded_file, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
 
