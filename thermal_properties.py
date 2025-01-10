@@ -45,8 +45,6 @@ def thermal_data_prep(input_data):
     data["T1"] = data["T1"].mask(T1_outliers, data["T1"].shift(-1))  # Replace outliers for T1
     data["T3"] = data["T3"].mask(T3_outliers, data["T3"].shift(-1))  # Replace outliers for T3
 
-    return heat_data
-
 def Heat(input_data, parameters=None):
 
     # Define default parameters
