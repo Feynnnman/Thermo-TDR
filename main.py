@@ -9,6 +9,7 @@ from thermal_properties import thermal_data_prep
 from electrical_conductivity import Sigma
 from electrical_conductivity import electrical_data_prep
 from water_content import Theta
+from water_content import water_content_prep
 
 # Streamlit interface
 st.sidebar.image("logo.png", use_container_width=True)
@@ -55,8 +56,8 @@ if uploaded_file:
 
         # Data preview
         st.subheader("Data preview")
-        path_T = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-        heat_data = thermal_data_prep(path_T)
+        path_H = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        heat_data = thermal_data_prep(path_H)
         
         st.dataframe(heat_data, width=800, height=400)
 
@@ -146,7 +147,7 @@ if uploaded_file:
             # Ensure all parameters are provided
             if all(value is not None for value in input_heat_parameters.values()):
                 st.write("Processing computations...")
-                results = Heat(path_T, parameters=input_heat_parameters)
+                results = Heat(path_H, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
 
@@ -222,9 +223,9 @@ if uploaded_file:
         # Data preview
         st.subheader("Data preview")
         path_T = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
-        heat_data = thermal_data_prep(path_T)
+        theta_data = water_content_prep(path_T)
         
-        st.dataframe(heat_data, width=800, height=400)
+        st.dataframe(theta_data, width=800, height=400)
 
 
         # Data visualization
@@ -252,7 +253,7 @@ if uploaded_file:
             # Ensure all parameters are provided
             if all(value is not None for value in input_theta_parameters.values()):
                 st.write("Processing calculations...")
-                results = Theta(data, parameters=input_theta_parameters)
+                results = Theta(theta_data, parameters=input_theta_parameters)
     
     # Display and allow download of results
     if results is not None:
@@ -266,6 +267,6 @@ if uploaded_file:
             mime="text/csv",
         )
     else:
-        st.info("Click 'Run' to start the analysis.")
+        st.info("Click 'Run' to start.")
 else:
     st.write("Please upload a data file to begin.")
