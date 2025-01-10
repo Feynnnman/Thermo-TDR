@@ -208,7 +208,7 @@ if uploaded_file:
                     step=0.01
                 )
 
-        # Compute the thermal properties
+        # Compute the electrical conductivity
         st.subheader("Computation and Results")
         if st.button("Compute"):
             # Ensure all parameters are provided
@@ -218,7 +218,17 @@ if uploaded_file:
 
     # Call the theta function
     elif analysis_type == "Water Content":
-        st.header("Water Content Analysis")
+
+        # Data preview
+        st.subheader("Data preview")
+        path_T = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        heat_data = thermal_data_prep(path_T)
+        
+        st.dataframe(heat_data, width=800, height=400)
+
+
+        # Data visualization
+        st.subheader("Data visualization")
 
         # Define default theta parameters
         default_theta_parameters = {
