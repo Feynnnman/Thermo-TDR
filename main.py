@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from thermal_properties import Heat
 from thermal_properties import thermal_data_prep
 from electrical_conductivity import Sigma
+from electrical_conductivity import electrical_data_prep
 from water_content import Theta
 
 # Streamlit interface
@@ -148,7 +149,34 @@ if uploaded_file:
                 results = Heat(path, parameters=input_heat_parameters)
     
     elif analysis_type == "Electrical Conductivity":
-        st.header("Electrical Conductivity Analysis")
+
+        # Data preview
+        st.subheader("Data preview")
+        path = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
+        electrical_data = electrical_data_prep(path)
+        
+        st.dataframe(electrical_data, width=800, height=400)
+
+
+        # Data visualization
+        st.subheader("Data visualization")
+
+        # Add a slider to select the number of columns to visualize
+        start_column = st.slider("Start", 1, len(electrical_data.columns), step=1)
+        end_column = st.slider("End", 1, len(electrical_data.columns), step=1)
+        column_number = end_column - start_column
+
+        fig = electrical_data.iloc[:, start_column:end_column].plot(
+            figsize=(10, 6),
+            style={col: f'-{c}' for col, c in zip(electrical_data.columns[start_column:end_column], ['r', 'b', 'g', 'k', 'm'])},
+            linewidth=2,
+            grid=True
+        )
+        
+        # Adjust layout to prevent legend cutoff
+        plt.tight_layout()
+        
+        st.pyplot(fig.figure)
 
         default_sigma_parameters = {
             "Characteristic impedance of the cable tester system (ohm)": 75,
