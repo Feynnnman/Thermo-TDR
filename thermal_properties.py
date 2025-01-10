@@ -71,6 +71,7 @@ def Heat(input_data, parameters=None):
         heat_data = thermal_data_prep(input_data)
     else:
         heat_data = pd.read_excel(input_data)
+        heat_data.columns = ["Counter", "T1", "T3", "Volt"]
         
     results = []
 
