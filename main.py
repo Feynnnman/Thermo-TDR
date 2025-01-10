@@ -231,6 +231,26 @@ if uploaded_file:
         # Data visualization
         st.subheader("Data visualization")
 
+        # Add a slider to select the number of columns to visualize
+        start_column = st.slider("Start", 1, len(theta_data.columns), step=1)
+        end_column = st.slider("End", 1, len(theta_data.columns), step=1)
+        column_number = end_column - start_column
+
+        fig = theta_data.iloc[:, start_column:end_column].plot(
+            figsize=(10, 6),
+            xlabel="Appraent distance (m)",
+            ylabel="Reflection coefficient",
+            legend=False,
+            style={col: f'-{c}' for col, c in zip(theta_data.columns[start_column:end_column], ['r', 'b', 'g', 'k', 'm'])},
+            linewidth=2,
+            grid=True
+        )
+        
+        # Adjust layout to prevent legend cutoff
+        plt.tight_layout()
+        
+        st.pyplot(fig.figure)
+
         # Define default theta parameters
         default_theta_parameters = {
             "Probe length (m)": 0.045
@@ -257,11 +277,11 @@ if uploaded_file:
     
     # Display and allow download of results
     if results is not None:
-        st.write("Analysis Complete!")
+        st.write("Computation Complete!")
         st.write("Results:")
         st.write(results)
         st.download_button(
-            label="Download Results as CSV",
+            label="Download Results",
             data=results.to_csv(index=False),
             file_name=f"{analysis_type.replace(' ', '_')}_results.csv",
             mime="text/csv",
