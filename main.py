@@ -273,7 +273,7 @@ if uploaded_file:
             # Ensure all parameters are provided
             if all(value is not None for value in input_theta_parameters.values()):
                 st.write("Processing calculations...")
-                results = Theta(theta_data, parameters=input_theta_parameters)
+                results = Theta(path_T, parameters=input_theta_parameters)
     
     # Display and allow download of results
     if results is not None:
