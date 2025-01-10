@@ -63,7 +63,6 @@ if uploaded_file:
             heat_data = thermal_data_prep(path_H)
         else:
             heat_data = pd.read_csv(uploaded_file)
-            heat_data.columns = ["Counter", "T1", "T3", "Volt"]
         
         st.dataframe(heat_data, width=800, height=400)
 
