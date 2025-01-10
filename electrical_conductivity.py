@@ -36,6 +36,8 @@ def Sigma(input_data, parameters=None):
     else:
         # If any parameter is updated, use the updated value
         input_sigma_parameters = {key: parameters.get(key, default_sigma_parameters[key]) for key in default_sigma_parameters.keys()}
+    
+    sigma_data = electrical_data_prep(input_data)
 
     # Create a list to store results
     results = []
@@ -47,12 +49,12 @@ def Sigma(input_data, parameters=None):
     alpha = input_sigma_parameters["Temperature coefficient of the sample (°C-1)"]
     T = input_sigma_parameters["Temperature (°C-1)"]
 
-    for i in range(0, data.shape[1]):
+    for i in range(0, sigma_data.shape[1]):
 
         # Define X1 as the mean of the first two cells in the column
-        X1 = data.iloc[:2, i].mean()
+        X1 = sigma_data.iloc[:2, i].mean()
 
-        column = data.iloc[:, i]
+        column = sigma_data.iloc[:, i]
         median = []
         std = []
         X2 = None  # Initialize v0
