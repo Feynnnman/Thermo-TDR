@@ -170,7 +170,7 @@ if uploaded_file:
             figsize=(10, 6),
             xlabel="Travel distance (m)",
             ylabel="Reflection coefficient",
-            legend=Flase,
+            legend=False,
             style={col: f'-{c}' for col, c in zip(electrical_data.columns[start_column:end_column], ['r', 'b', 'g', 'k', 'm'])},
             linewidth=2,
             grid=True
