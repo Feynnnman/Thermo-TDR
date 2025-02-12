@@ -77,7 +77,7 @@ def Heat(input_data, parameters=None):
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
     T = input_heat_parameters["Duration of one measurement (s)"]
 
-    Times = len(heat_data) // T
+    Times = int(len(heat_data) // T)
 
     # define t0 as the heat pulse width, i.e., number of cells in column volt than values are greater than 50
     t0 = len(heat_data[heat_data["Volt"] > 50]) // Times
