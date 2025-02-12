@@ -57,15 +57,9 @@ if uploaded_file:
         # Data preview
         st.subheader("Data preview")
         
-        # extension = Path(uploaded_file.name).suffix.lower()
-        # if extension == '.dat':
         path_H = pd.read_csv(uploaded_file, delim_whitespace=True, header=None)
         heat_data = thermal_data_prep(path_H)
-        # else:
-        #     path_H = pd.read_excel(uploaded_file, header=None)
-        #     heat_data = path_H
-        #     heat_data.columns = ["Counter", "T1", "T3", "Volt"]
-        
+
         st.dataframe(heat_data, width=800, height=400)
 
 
