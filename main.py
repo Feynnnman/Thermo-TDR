@@ -117,8 +117,7 @@ if uploaded_file:
             "Volumetric heat capacity of the probe (MJ m-3 K-1)": 2.84e6,
             "Probe spacing for T1 (m)": 0.008,
             "Probe spacing for T3 (m)": 0.008,
-            "Resistance of the heating element (Ohm)": 887.6,
-            "Duration of one measurement (s)": 300
+            "Resistance of the heating element (Ohm)": 887.6
             }
         
         # Create input fields for each parameter
