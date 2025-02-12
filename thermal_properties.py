@@ -87,8 +87,6 @@ def Heat(input_data, parameters=None):
     # define t2 as the time when the heat pulse ends, i.e., counter value when the last value in column volt is greater than 50
     t2 = int(t0 + t1)
 
-    T = int(T)
-
     # Implement the ICPC function
     def fasticpcinv(time, L, a0, qprime, beta0, lambda_, kappa):
         MM = len(time)
