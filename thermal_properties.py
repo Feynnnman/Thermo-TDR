@@ -66,8 +66,7 @@ def Heat(input_data, parameters=None):
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
 
-    path_H = pd.read_csv(input_data, delim_whitespace=True, header=None)
-    heat_data = thermal_data_prep(path_H)
+    heat_data = thermal_data_prep(input_data)
         
     results = []
 
