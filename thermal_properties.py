@@ -65,8 +65,8 @@ def Heat(input_data, parameters=None):
         # If any parameter is updated, use the updated value
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
-
-    heat_data = thermal_data_prep(input_data)
+    path_H = pd.read_csv(input_data, delim_whitespace=True, header=None)
+    heat_data = thermal_data_prep(path_H)
         
     results = []
 
@@ -78,7 +78,7 @@ def Heat(input_data, parameters=None):
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
     T = input_heat_parameters["Duration of one measurement (s)"]
 
-    Times = int(len(heat_data) // T)
+    Times = len(heat_data) // T
 
     # define t0 as the heat pulse width, i.e., number of cells in column volt than values are greater than 50
     t0 = len(heat_data[heat_data["Volt"] > 50]) // Times
