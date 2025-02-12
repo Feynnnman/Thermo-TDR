@@ -61,19 +61,13 @@ def Heat(input_data, parameters=None):
     # Use default parameters if not provided
     if parameters is None:
         input_heat_parameters = default_heat_parameters
-    else:
+    else: 
         # If any parameter is updated, use the updated value
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
 
-    # extension = Path(input_data).suffix
-    # if extension == '.dat':
     path_H = pd.read_csv(input_data, delim_whitespace=True, header=None)
     heat_data = thermal_data_prep(path_H)
-    # else:
-    #     path_H = pd.read_excel(input_data, header=None)
-    #     heat_data = path_H
-    #     heat_data.columns = ["Counter", "T1", "T3", "Volt"]
         
     results = []
 
