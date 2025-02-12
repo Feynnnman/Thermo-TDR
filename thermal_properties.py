@@ -20,7 +20,7 @@ def thermal_data_prep(input_data):
     data = data[0].str.split(",", expand=True)  # Split the first column by comma
     data = data.apply(pd.to_numeric, errors="coerce")  # Convert the data type to numeric
     data = data.iloc[:, -4:]
-    data.columns = ["Counter", "T1", "T3", "Volt"]
+    data.columns = ["Counter", "T1", "T3", "Volt"]  # Rename the columns
 
     while data["Counter"].iloc[0] != 0:  # Remove the few rows until the counter is 0
         data = data.iloc[1:]
@@ -66,11 +66,13 @@ def Heat(input_data, parameters=None):
         input_heat_parameters = {key: parameters.get(key, default_heat_parameters[key]) for key in default_heat_parameters.keys()}
 
 
-    extension = Path(input_data).suffix.lower()
+    extension = Path(input_data).suffix
     if extension == '.dat':
-        heat_data = thermal_data_prep(input_data)
+        path_H = pd.read_csv(input_data, delim_whitespace=True, header=None)
+        heat_data = thermal_data_prep(path_H)
     else:
-        heat_data = pd.read_excel(input_data)
+        path_H = pd.read_excel(input_data, header=None)
+        heat_data = path_H
         heat_data.columns = ["Counter", "T1", "T3", "Volt"]
         
     results = []
