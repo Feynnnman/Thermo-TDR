@@ -75,7 +75,7 @@ def Heat(input_data, parameters=None):
     r1 = input_heat_parameters["Probe spacing for T1 (m)"]
     r3 = input_heat_parameters["Probe spacing for T3 (m)"]
     R = input_heat_parameters["Resistance of the heating element (Ohm)"]
-    T = input_heat_parameters["Duration of one measurement (s)"]
+    T = int(input_heat_parameters["Duration of one measurement (s)"])
 
     Times = len(heat_data) // T
 
