@@ -53,7 +53,6 @@ if uploaded_file:
     # Call the respective function
     if analysis_type == "Thermal Properties":
 
-
         # Data preview
         st.subheader("Data preview")
         
