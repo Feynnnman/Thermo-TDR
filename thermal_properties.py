@@ -147,8 +147,8 @@ def Heat(input_data, parameters=None):
         BTemp1 = np.mean(T1[:t2])
         BTemp3 = np.mean(T3[:t2])
 
-        deltaT1 = T1[t1:0.8*300].reset_index(drop=True) - BTemp1
-        deltaT3 = T3[t1:0.8*300].reset_index(drop=True) - BTemp3
+        deltaT1 = T1[t1:240].reset_index(drop=True) - BTemp1
+        deltaT3 = T3[t1:240].reset_index(drop=True) - BTemp3
         q = (np.mean(Volt[t1:t2]) / 1000) ** 2 * R
 
         # Identify the data points for PILS fitting
